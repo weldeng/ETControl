@@ -165,7 +165,7 @@ def myfunc(d):  # gets solar energy weather data for todays date - the number of
                 count = count + 1            
                 if count is 14:
                     solartotal = solartotal + float(i)
-    return [solartotal]
+    return [solartotal] # watt-hours total for the day
 
 
 
