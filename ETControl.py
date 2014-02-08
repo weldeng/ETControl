@@ -6,7 +6,6 @@ WL = 1.05 # program start initial water level (Field Capacity -inches in root zo
 
 import urllib2
 import json
-import math
 import time
 import datetime
 import Solarenergy
@@ -81,7 +80,8 @@ while True:
         lday,lTmax,lTmin,lRHmax,lRHmin,lmeanwindspdi,lSolar,lprecipi,lETc,lWL = lastline.split(",")
         if int(lday) != day:
             log = open('ETlog', 'a')
-            log.write (" \n" + str(day) + ", " + str(Tmax)+ ", " + str(Tmin) + ", " + str(RHmax)+ ", " + str(RHmin) + ", " + str(meanwindspdi) + ", " + str(Solar)+ ", " + str(precipi) + ", " + str(format(ETc, '.3f')) + ", " + str(WL))
+            #log.write ("\n" + str(day) + ", " + str(Tmax)+ ", " + str(Tmin) + ", " + str(RHmax)+ ", " + str(RHmin) + ", " + str(meanwindspdi) + ", " + str(Solar)+ ", " + str(precipi) + ", " + str(format(ETc, '.3f')) + ", " + str(WL))
+            log.write (str(day) + ", " + str(Tmax)+ ", " + str(Tmin) + ", " + str(RHmax)+ ", " + str(RHmin) + ", " + str(meanwindspdi) + ", " + str(Solar)+ ", " + str(precipi) + ", " + str(format(ETc, '.3f')) + ", " + str(WL))
             log.close()
 
 
