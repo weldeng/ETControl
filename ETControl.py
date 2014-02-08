@@ -6,17 +6,17 @@ WL = 1.05 # program start initial water level (Field Capacity -inches in root zo
 
 import urllib2
 import json
-import math
-import time
 import datetime
+import time
 import Solarenergy
 import ETCalc
+from datetime import date, datetime, time, timedelta
 
 dayold = int(datetime.date.today().strftime("%j"))-1
 while True:  
     if int(datetime.date.today().strftime("%j")) > dayold:
         dayold = int(datetime.date.today().strftime("%j"))
-        time.sleep(90) # allows time for personal weather stations to write/compute data before requsting that info
+        #time.sleep(90) # allows time for personal weather stations to write/compute data before requsting that info
 
         ### CLOSEST WEATHER STATION DATA AQUISITION FOR HISTORICAL SOLAR ENERGY - Uses Solarenergy module
         for d in range (1,2): # where d in the parenthetical numbers are the range in days back in time to check
@@ -78,10 +78,11 @@ while True:
         for line in log:
             lastline = line
         log.close()
-        lday,lTmax,lTmin,lRHmax,lRHmin,lmeanwindspdi,lSolar,lprecipi,lETc,lWL = lastline.split(",")
+        lday,ldateold,lTmax,lTmin,lRHmax,lRHmin,lmeanwindspdi,lSolar,lprecipi,lETc,lWL = lastline.split(",")
         if int(lday) != day:
+            dateold = (datetime.now() + timedelta(days=-1)).strftime("%m/%d/%y")
             log = open('ETlog', 'a')
-            log.write (" \n" + str(day) + ", " + str(Tmax)+ ", " + str(Tmin) + ", " + str(RHmax)+ ", " + str(RHmin) + ", " + str(meanwindspdi) + ", " + str(Solar)+ ", " + str(precipi) + ", " + str(format(ETc, '.3f')) + ", " + str(WL))
+            log.write (" \n" + str(day) + ", " + str(dateold) + ", " + str(Tmax)+ ", " + str(Tmin) + ", " + str(RHmax)+ ", " + str(RHmin) + ", " + str(meanwindspdi) + ", " + str(Solar)+ ", " + str(precipi) + ", " + str(format(ETc, '.3f')) + ", " + str(WL))
             log.close()
 
 
