@@ -16,7 +16,7 @@ dayold = int(datetime.date.today().strftime("%j"))-1
 while True:  
     if int(datetime.date.today().strftime("%j")) > dayold:
         dayold = int(datetime.date.today().strftime("%j"))
-        #time.sleep(90) # allows time for personal weather stations to write/compute data before requsting that info
+        time.sleep(90) # allows time for personal weather stations to write/compute data before requsting that info
 
         ### CLOSEST WEATHER STATION DATA AQUISITION FOR HISTORICAL SOLAR ENERGY - Uses Solarenergy module
         for d in range (1,2): # where d in the parenthetical numbers are the range in days back in time to check
