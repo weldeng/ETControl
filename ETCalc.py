@@ -44,7 +44,7 @@ def myfunc(latitudeD, longitudeD, elev, day, Tmax, Tmin, RHmax, RHmin, meanwinds
     EToi = ETo / 25.4 # inches/day
     ETc = EToi * Kc # ET for Zoysia or Fescue inches/day
 
-    return [ETc]
+    return ETc
 
 
 
