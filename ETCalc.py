@@ -1,5 +1,5 @@
 # ETCalc.py
-def myfunc(latitudeR, longitudeR, elev, day, Tmax, Tmin, RHmax, RHmin, meanwindspdi, Solar, Kc):  # calculates ET with the following inputs
+def myfunc(latitudeD, longitudeD, elev, day, Tmax, Tmin, RHmax, RHmin, meanwindspdi, Solar, Kc):  # calculates ET with the following inputs
 
     #latitudeR = lattitude in degrees at sprinklers
     #longitudeR = longitude in degrees at sprinklers

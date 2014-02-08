@@ -1,5 +1,5 @@
 import ETCalc
 
-#grasset = ETCalc.myfunc(latitudeR, longitudeR, elev, day, Tmax, Tmin, RHmax, RHmin, meanwindspdi, Solar, Kc)
-grasset = ETCalc.myfunc(latitudeR, longitudeR, 67.0, day, Tmax, Tmin, RHmax, RHmin, meanwindspdi, Solar, Kc)
-print grasset
+#ETc = ETCalc.myfunc(latitudeR, longitudeR, elev, day, Tmax, Tmin, RHmax, RHmin, meanwindspdi, Solar, Kc)
+ETc = ETCalc.myfunc(37.753, -77.484, 67.0, 37, 8.0, 0.0, 100.0, 57.0, 4.0, 2452.0, 0.80)
+print ETc, " inches evapotranspiration occurred"
