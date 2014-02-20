@@ -1,8 +1,9 @@
-# RPi-ETControl.py
+# RPi-ETControl.py , written in Python version 2.7.6
 # calls to Weather Underground for Opensprinkler.pi hardware
 # uses API key 6123f0cccfe7fe9e
 
-WL = 1.05 # program start initial water level (Field Capacity -inches in root zone)
+
+
 
 import urllib2
 import json
@@ -10,6 +11,11 @@ import time
 import datetime
 import Solarenergy
 import ETCalc
+
+ri = raw_input('Enter program start initial water level in root zone two days ago(range 0.0 - 1.05 inches(FC)): ')
+WL = float(ri)
+irrigate = 0.00
+print "day, Tmax, Solar, precipi, ETc, WL"
 
 dayold = int(datetime.date.today().strftime("%j"))-1
 while True:  
@@ -57,32 +63,26 @@ while True:
         ETc = float ("%0.3f" % (ETc))
         
         FC = PAW * RD #Field Capacity, inches of water the soil is capable of holding in the root zone
-        log = open('ETlog', 'r') # open ETlog and get the soil water level from the two days ago
-        for line in log:
-            oldday, oldTmax, oldTmin, oldRHmax, oldRHmin, oldmeanwindspdi, oldSolar, oldprecipi, oldETc, oldWL = line.split(",")
-            print oldday, oldprecipi, oldETc, oldWL 
-            if int(oldday) == day-1:
-                WL= float(oldWL)
-        log.close()
+
         #calculate soil water level at the end of yesterday
         if  WL + float(precipi) - ETc >= FC:
             WL = FC
         if  WL + float(precipi) - ETc < FC:
-            WL = WL + float(precipi) - ETc        
+            WL = WL + float(precipi) - ETc
+
+        # run sprinklers to refill to field capacity if needed
+        if WL - ETc < MAD:
+            irrigate = FC - WL # inches
+            # insert code to wait until start time, run sprinklers to deposit irrigate amount of water
+            WL = FC
 
         ###  OUTPUTS
 
-        ##  open ET log, check if data is already there for yesterday, and if not write the line of data for yesterday
-        log = open('ETlog', 'r')
-        for line in log:
-            lastline = line
-        log.close()
-        lday,lTmax,lTmin,lRHmax,lRHmin,lmeanwindspdi,lSolar,lprecipi,lETc,lWL = lastline.split(",")
-        if int(lday) != day:
-            log = open('ETlog', 'a')
-            #log.write ("\n" + str(day) + ", " + str(Tmax)+ ", " + str(Tmin) + ", " + str(RHmax)+ ", " + str(RHmin) + ", " + str(meanwindspdi) + ", " + str(Solar)+ ", " + str(precipi) + ", " + str(format(ETc, '.3f')) + ", " + str(WL))
-            log.write (str(day) + ", " + str(Tmax)+ ", " + str(Tmin) + ", " + str(RHmax)+ ", " + str(RHmin) + ", " + str(meanwindspdi) + ", " + str(Solar)+ ", " + str(precipi) + ", " + str(format(ETc, '.3f')) + ", " + str(WL))
-            log.close()
+        print day, Tmax, Tmin, RHmax, RHmin, meanwindspdi, Solar, precipi, ETc, WL, irrigate
+
+        #log = open('ETlog', 'a')
+        #log.write ("\n" + str(day) + ", " + str(Tmax)+ ", " + str(Tmin) + ", " + str(RHmax)+ ", " + str(RHmin) + ", " + str(meanwindspdi) + ", " + str(Solar)+ ", " + str(precipi) + ", " + str(format(ETc, '.3f')) + ", " + str(WL)+ ", " + str(irrigate))
+        #log.close()
 
 
 
