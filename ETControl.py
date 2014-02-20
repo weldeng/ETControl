@@ -1,8 +1,6 @@
-# RPi-ETControl.py , written in Python version 2.7.6
+# RPi-ETControl.py, written in Python version 2.7.6
 # calls to Weather Underground for Opensprinkler.pi hardware
 # uses API key 6123f0cccfe7fe9e
-
-
 
 
 import urllib2
@@ -15,7 +13,7 @@ import ETCalc
 ri = raw_input('Enter program start initial water level in root zone two days ago(range 0.0 - 1.05 inches(FC)): ')
 WL = float(ri)
 irrigate = 0.00
-print "day, Tmax, Solar, precipi, ETc, WL"
+print "day, Tmax, Tmin, RHmax, RHmin, windspd, Solar, precip, ETc, WL, irrigate"
 
 dayold = int(datetime.date.today().strftime("%j"))-1
 while True:  
@@ -53,15 +51,14 @@ while True:
         meanwindspdi = float(meanwindspdi) # MPH
         Solar = mylist[0] # watt-hours/square meter per day (sum of 24 1 hour periods)from module Solarenergy
         Kc = 0.80  #Crop coefficent for turfgrass (Meyer Zoysia , Rebel II tall fescue)
-   
         PAW = 1.4   # Plant Available Water inches/foot for Sandy Loam Soil (Ref. Turfgrass irrigation Circular 660 NM State University)
-        MAD = .50   # Management Allowable Depletion 
+        MAD = .50   # Management Allowable Depletion, more than this and the grass starts to wilt
         RD = 0.75  #root depth in feet
+
 
         ### CALCULATIONS ###
         ETc = ETCalc.myfunc(latitudeD, longitudeD, elev, day, Tmax, Tmin, RHmax, RHmin, meanwindspdi, Solar, Kc)
-        ETc = float ("%0.3f" % (ETc))
-        
+        ETc = float ("%0.3f" % (ETc))       
         FC = PAW * RD #Field Capacity, inches of water the soil is capable of holding in the root zone
 
         #calculate soil water level at the end of yesterday
@@ -71,18 +68,18 @@ while True:
             WL = WL + float(precipi) - ETc
 
         # run sprinklers to refill to field capacity if needed
-        if WL - ETc < MAD:
+        if WL - ETc < FC * MAD:
             irrigate = FC - WL # inches
             # insert code to wait until start time, run sprinklers to deposit irrigate amount of water
             WL = FC
 
+
         ###  OUTPUTS
 
         print day, Tmax, Tmin, RHmax, RHmin, meanwindspdi, Solar, precipi, ETc, WL, irrigate
-
-        #log = open('ETlog', 'a')
-        #log.write ("\n" + str(day) + ", " + str(Tmax)+ ", " + str(Tmin) + ", " + str(RHmax)+ ", " + str(RHmin) + ", " + str(meanwindspdi) + ", " + str(Solar)+ ", " + str(precipi) + ", " + str(format(ETc, '.3f')) + ", " + str(WL)+ ", " + str(irrigate))
-        #log.close()
+        log = open('ETlog', 'a')
+        log.write ("\n" + str(day) + ", " + str(Tmax)+ ", " + str(Tmin) + ", " + str(RHmax)+ ", " + str(RHmin) + ", " + str(meanwindspdi) + ", " + str(Solar)+ ", " + str(precipi) + ", " + str(format(ETc, '.3f')) + ", " + str(WL)+ ", " + str(irrigate))
+        log.close()
 
 
 
