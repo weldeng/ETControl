@@ -10,9 +10,9 @@ import datetime
 import Solarenergy
 import ETCalc
 
-#ri = raw_input('Enter program start initial water level in root zone two days ago(range 0.0 - 1.05 inches(FC)): ')
-#WL = float(ri)
-WL = 1.05
+ri = raw_input('Enter program start initial water level in root zone two days ago(range 0.0 - 1.05 inches(FC)): ')
+WL = float(ri)
+#WL = 1.05
 irrigate = 0.00
 print "day, Tmax, Tmin, RHmax, RHmin, windspd, Solar, precip, ETc, WL, irrigate"
 
