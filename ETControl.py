@@ -7,7 +7,7 @@ import urllib2
 import json
 import time
 import datetime
-import Solarenergy
+import Solarenergy4
 import ETCalc
 
 ri = raw_input('Enter program start initial water level in root zone two days ago(range 0.0 - 1.05 inches(FC)): ')
@@ -22,11 +22,10 @@ while True:
         dayold = int(datetime.date.today().strftime("%j"))
         time.sleep(90) # allows time for personal weather stations to write/compute data before requsting that info
 
-        ### CLOSEST WEATHER STATION DATA AQUISITION FOR HISTORICAL SOLAR ENERGY - Uses Solarenergy module
+        ### CLOSEST WEATHER STATION DATA AQUISITION FOR HISTORICAL SOLAR ENERGY - Uses Solarenergy4 module
         for d in range (1,2): # where d in the parenthetical numbers are the range in days back in time to check
-            mylist = Solarenergy.myfunc(d)  #mylist[0] is the daily watt-hr total of solar energy from module Solarenergy
-
-
+            mylist = Solarenergy4.myfunc(d)  #mylist[0] is the daily watt-hr total of solar energy from module Solarenergy4
+  
         ### CLOSEST WEATHER STATION DATA AQUISITION EXCEPT SOLAR ENERGY
         f = urllib2.urlopen('http://api.wunderground.com/api/6123f0cccfe7fe9e/conditions/yesterday/q/VA/Richmond_Hanover_County.json')
         json_string = f.read()
